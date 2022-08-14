@@ -1,45 +1,78 @@
-function getComputerChoice() {
-    const computerChoice = Math.random();
-    if(computerChoice <= 0.33){
-        return "rock";
-    }else if(computerChoice <= 0.66){
-        return "paper";
-    } else if(computerChoice <= 1){
-        return "scissors";
-    }
-}
-
-function playRound(playerSelection, computerSelection){
-
-    if(playerSelection === "rock" && computerSelection === "paper"){
-        return "You Lose! Paper beats Rock";
-    } else if(playerSelection === "paper" && computerSelection === "scissors"){
-        return "You Lose! Scissors beats Paper";
-    } else if(playerSelection === "scissors" && computerSelection === "rock"){
-        return "You Lose! Rock beats Scissors";
-    } else if(playerSelection === "rock" && computerSelection === "scissors"){
-        return "You Win! Rock beats Scissors";
-    } else if(playerSelection === "paper" && computerSelection === "rock"){
-        return "You Win! Paper beats Rock";
-    } else if(playerSelection === "scissors" && computerSelection === "paper"){
-        return "You Win! Scissors beats Paper";
-    } else if (playerSelection === "rock" && computerSelection === "rock" || playerSelection === "paper" && computerSelection === "paper" || 
-    playerSelection === "scissors" && computerSelection === "scissors") {
-        return "Tie!";
-    } else {
-    return "Incorrect Input! Try again!";
-    }
-}
-
-function game(){
-    for(let i = 0; i < 5; i++){
-         playRound();   
-    }
-}
-
-let playerSelection = prompt("Enter your choice!");
-playerSelection = playerSelection.toLowerCase();
+let playerSelection;
 const computerSelection = getComputerChoice();
+let counterPointsPlayer = 0;
+let counterPointsComputer = 0;
 
-console.log(playRound(playerSelection, computerSelection));
-console.log(game());
+function getComputerChoice() {
+  const randomNumber = Math.floor(Math.random() * 3) + 1;
+  if (randomNumber === 1) {
+    return "rock";
+  } else if (randomNumber === 2) {
+    return "paper";
+  } else if (randomNumber === 3) {
+    return "scissors";
+  }
+}
+
+function play(playerSelection, computerSelection) {
+  let counterRounds = 1;
+
+  while (counterRounds <= 5) {
+    playerSelection = prompt("Enter Your Choice:").toLowerCase();
+    computerSelection = getComputerChoice();
+
+    if (playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scissors") {
+      if (playerSelection === "rock" && computerSelection === "paper") {
+        counterPointsComputer++;
+        console.log(`You Lose! Paper beats Rock!
+The current result is ${counterPointsPlayer}:${counterPointsComputer}`);
+      } else if (playerSelection === "paper" && computerSelection === "scissors") {
+        counterPointsComputer++;
+        console.log(`You Lose! Scissors beats Paper!
+The current result is ${counterPointsPlayer}:${counterPointsComputer}`);
+      } else if (playerSelection === "scissors" && computerSelection === "rock") {
+        counterPointsComputer++;
+        console.log(`You Lose! Rock beats Scissors!
+The current result is ${counterPointsPlayer}:${counterPointsComputer}`);
+      } else if (playerSelection === "rock" && computerSelection === "scissors") {
+        counterPointsPlayer++;
+        console.log(`You Win! Rock beats Scissors!
+The current result is ${counterPointsPlayer}:${counterPointsComputer}`);
+      } else if (playerSelection === "paper" && computerSelection === "rock") {
+        counterPointsPlayer++;
+        console.log(`You Win! Paper beats Rock!
+The current result is ${counterPointsPlayer}:${counterPointsComputer}`);
+      } else if (playerSelection === "scissors" && computerSelection === "paper") {
+        counterPointsPlayer++;
+        console.log(`You Win! Scissors beats Paper!
+The current result is ${counterPointsPlayer}:${counterPointsComputer}`);
+      } else if (playerSelection === computerSelection) {
+        console.log(`It's a Tie! No one gets a point!
+The current result is ${counterPointsPlayer}:${counterPointsComputer}`);
+      }
+      counterRounds++;
+    } else {
+      console.log(checkInvalidInput());
+    }
+  }
+  console.log(declareWinner());
+}
+
+function checkInvalidInput() {
+  if (playerSelection != "rock" || playerSelection != "paper" || playerSelection != "scissors") {
+    console.log("Invalid Input! Try Again!");
+  }
+}
+
+function declareWinner() {
+  if (counterPointsPlayer > counterPointsComputer) {
+    console.log("Congratulations! You Won the game!!!");
+  } else if (counterPointsComputer > counterPointsPlayer) {
+    console.log("Unfortunately, You Lost the game! :(");
+  } else {
+    console.log("The game ends in a draw!");
+  }
+  console.log(`The final result is: ${counterPointsPlayer}:${counterPointsComputer}!`);
+}
+
+console.log(play());
