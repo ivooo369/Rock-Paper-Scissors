@@ -84,27 +84,27 @@ function game() {
         colorWinner();
         return `You Win! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       }
-      return declareWinner;
+      return declareWinner();
     }
   }
 
-  const declareWinner = function () {
+  function declareWinner() {
     let finalResult = `The final result is: ${counterPointsPlayer}:${counterPointsComputer}!`;
 
     if (counterPointsPlayer > counterPointsComputer) {
-      return `Congratulations! You Won the game!!! ${finalResult}`;
-    } else if (counterPointsComputer > counterPointsPlayer) {
-      return `Unfortunately, You Lost the game! :( ${finalResult}`;
+      return `Congratulations! You won the game!!! 😎 
+${finalResult}`;
     } else {
-      return `The game ends in a draw! ${finalResult}`;
+      return `Unfortunately, You lost the game! 😟 
+${finalResult}`;
     }
-  };
+  }
 
   // create div DOM for all results
   const container = document.querySelector("#container");
   const resultsDiv = document.createElement("div");
   resultsDiv.classList.add("results");
-  resultsDiv.style.marginTop = "20px";
+  resultsDiv.style.marginTop = "30px";
   container.appendChild(resultsDiv);
 
   // create player win tracking DOM
@@ -124,45 +124,43 @@ function game() {
   battleWinText.style.color = "red";
   resultsDiv.appendChild(battleWinText);
 
+  // create popup window
+  const popup = document.createElement("div");
+  popup.style.color = "#ffd700";
+  popup.classList.add("popup");
+  popup.setAttribute("id", "popup");
+  container.appendChild(popup);
+  popup.getElementById("popup");
+
   // create game win text DOM
   const gameWinText = document.createElement("p");
-  gameWinText.style.color = "#ffd700";
-  gameWinText.textContent = gameWinner;
-  resultsDiv.appendChild(gameWinText);
+  gameWinText.innerText = gameWinner;
+  popup.appendChild(gameWinText);
 
   function colorWinner() {
     if (playerWinner === true) {
-      battleWinText.style.color = "green";
+      battleWinText.style.color = "#00ff00";
     } else if (computerWinner === true) {
-      battleWinText.style.color = "red";
+      battleWinText.style.color = "#ff0000";
     } else {
-      battleWinText.style.color = "white";
+      battleWinText.style.color = "#ffffff";
     }
+  }
+
+  function openPopup() {
+    popup.classList.add("open-popup");
+  }
+
+  function closePopup() {
+    popup.classList.remove("open-popup");
   }
 
   // determine who won to five points first
   function endGame() {
     if (counterPointsPlayer === 5) {
       gameWinner = declareWinner();
-      gameWinText.textContent = gameWinner;
-
-      // disable game buttons
-      document.getElementById("1").disabled = true;
-      document.getElementById("2").disabled = true;
-      document.getElementById("3").disabled = true;
-
-      // create new DOM button to replay
-      const playAgainButton = document.createElement("button");
-      playAgainButton.textContent = "Play Again!";
-      resultsDiv.appendChild(playAgainButton);
-
-      // if clicked, reload page
-      playAgainButton.addEventListener("click", () => {
-        location.reload();
-      });
-    } else if (counterPointsComputer == 5) {
-      gameWinner = declareWinner();
-      gameWinText.textContent = gameWinner;
+      popup.innerText = gameWinner;
+      openPopup();
 
       // disable game buttons
       document.getElementById("1").disabled = true;
@@ -175,7 +173,29 @@ function game() {
       // create new DOM button to replay
       const playAgainButton = document.createElement("button");
       playAgainButton.textContent = "Play Again!";
-      resultsDiv.appendChild(playAgainButton);
+      popup.appendChild(playAgainButton);
+
+      // if clicked, reload page
+      playAgainButton.addEventListener("click", () => {
+        location.reload();
+      });
+    } else if (counterPointsComputer === 5) {
+      gameWinner = declareWinner();
+      popup.innerText = gameWinner;
+      openPopup();
+
+      // disable game buttons
+      document.getElementById("1").disabled = true;
+      document.getElementById("1").style.pointerEvents = "none";
+      document.getElementById("2").disabled = true;
+      document.getElementById("2").style.pointerEvents = "none";
+      document.getElementById("3").disabled = true;
+      document.getElementById("3").style.pointerEvents = "none";
+
+      // create new DOM button to replay
+      const playAgainButton = document.createElement("button");
+      playAgainButton.textContent = "Play Again!";
+      popup.appendChild(playAgainButton);
 
       // if clicked, reload the page
       playAgainButton.addEventListener("click", () => {
