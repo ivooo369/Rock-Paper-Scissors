@@ -2,16 +2,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #010116;
   color: #ffffff;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 20px;
+  background-image: url(imgs/RPS-background.jpg);
 }
 
 #container {
   text-align: center;
   height: 450px;
   width: 1100px;
+  background-color: #010116;
   padding: 100px 0;
   border: 5px solid white;
   border-radius: 5px;
