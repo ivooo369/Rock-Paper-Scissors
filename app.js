@@ -15,8 +15,11 @@ function game() {
   let counterPointsPlayer = 0;
   let counterPointsComputer = 0;
   let gameWinner = "";
-  let playerWinner = false;
-  let computerWinner = false;
+  let roundPlayerWinner = false;
+  let roundComputerWinner = false;
+  let gamePlayerWinner = false;
+  let gameComputerWinner = false;
+
   let tie = false;
 
   // Add event listeners for all three buttons
@@ -37,71 +40,93 @@ function game() {
     if (playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scissors") {
       if (playerSelection === computerSelection) {
         tie = true;
-        playerWinner = false;
-        computerWinner = false;
-        colorWinner();
+        roundPlayerWinner = false;
+        roundComputerWinner = false;
+        colorRoundWinner();
         return `It's a Tie! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       } else if (playerSelection === "rock" && computerSelection === "paper") {
         counterPointsComputer++;
-        computerWinner = true;
-        playerWinner = false;
+        roundComputerWinner = true;
+        roundPlayerWinner = false;
         tie = false;
-        colorWinner();
+        colorRoundWinner();
         return `You Lose! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       } else if (playerSelection === "paper" && computerSelection === "scissors") {
         counterPointsComputer++;
-        computerWinner = true;
-        playerWinner = false;
+        roundComputerWinner = true;
+        roundPlayerWinner = false;
         tie = false;
-        colorWinner();
+        colorRoundWinner();
         return `You Lose! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       } else if (playerSelection === "scissors" && computerSelection === "rock") {
         counterPointsComputer++;
-        computerWinner = true;
-        playerWinner = false;
+        roundComputerWinner = true;
+        roundPlayerWinner = false;
         tie = false;
-        colorWinner();
+        colorRoundWinner();
         return `You Lose! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       } else if (playerSelection === "rock" && computerSelection === "scissors") {
         counterPointsPlayer++;
-        playerWinner = true;
-        computerWinner = false;
+        roundPlayerWinner = true;
+        roundComputerWinner = false;
         tie = false;
-        colorWinner();
+        colorRoundWinner();
         return `You Win! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       } else if (playerSelection === "paper" && computerSelection === "rock") {
         counterPointsPlayer++;
-        playerWinner = true;
-        computerWinner = false;
+        roundPlayerWinner = true;
+        roundComputerWinner = false;
         tie = false;
-        colorWinner();
+        colorRoundWinner();
         return `You Win! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       } else if (playerSelection === "scissors" && computerSelection === "paper") {
         counterPointsPlayer++;
-        playerWinner = true;
-        computerWinner = false;
+        roundPlayerWinner = true;
+        roundComputerWinner = false;
         tie = false;
-        colorWinner();
+        colorRoundWinner();
         return `You Win! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       }
       return declareWinner();
     }
   }
 
+  // declare the winner of the game and the final result
   function declareWinner() {
     let finalResult = `The final result is: ${counterPointsPlayer}:${counterPointsComputer}!`;
 
     if (counterPointsPlayer > counterPointsComputer) {
+      colorGameWinner();
       return `Congratulations! You won the game!!! 😎 
 ${finalResult}`;
     } else {
+      colorGameWinner();
       return `Unfortunately, You lost the game! 😟 
 ${finalResult}`;
     }
   }
 
+  // color the round outcome: player win - green, computer win - red, tie - white
+  function colorRoundWinner() {
+    if (roundPlayerWinner === true) {
+      battleWinText.style.color = "#00ff00";
+    } else if (roundComputerWinner === true) {
+      battleWinText.style.color = "#ff0000";
+    } else {
+      battleWinText.style.color = "#ffffff";
+    }
+  }
+
+  // color the game outcome: player win - green, computer win - red
+  function colorGameWinner() {
+    if (gamePlayerWinner === true) {
+      popup.style.color = "#00ff00";
+    } else if (gameComputerWinner === true) {
+      popup.style.color = "#ff0000";
+    }
+  }
+
   // create div DOM for all results
-  const container = document.querySelector("#container");
   const resultsDiv = document.createElement("div");
   resultsDiv.classList.add("results");
   resultsDiv.style.marginTop = "30px";
@@ -121,87 +146,97 @@ ${finalResult}`;
 
   // create battle win text DOM
   const battleWinText = document.createElement("p");
-  battleWinText.style.color = "red";
+  battleWinText.style.color = "#ff0000";
   resultsDiv.appendChild(battleWinText);
 
   // create popup window
   const popup = document.createElement("div");
-  popup.style.color = "#ffd700";
   popup.classList.add("popup");
-  popup.setAttribute("id", "popup");
   container.appendChild(popup);
-  popup.getElementById("popup");
+
+  // create overlay div to make the background darker when the popup window is open
+  const overlay = document.createElement("div");
+  overlay.classList.add("overlay");
+  container.appendChild(overlay);
 
   // create game win text DOM
   const gameWinText = document.createElement("p");
   gameWinText.innerText = gameWinner;
   popup.appendChild(gameWinText);
 
-  function colorWinner() {
-    if (playerWinner === true) {
-      battleWinText.style.color = "#00ff00";
-    } else if (computerWinner === true) {
-      battleWinText.style.color = "#ff0000";
-    } else {
-      battleWinText.style.color = "#ffffff";
-    }
-  }
-
+  // open popup window
   function openPopup() {
     popup.classList.add("open-popup");
+    overlay.classList.add("active");
   }
 
+  // close popup window
   function closePopup() {
     popup.classList.remove("open-popup");
+    overlay.classList.remove("active");
+  }
+
+  // disable game buttons
+  function disableGameButtons() {
+    document.getElementById("1").disabled = true;
+    document.getElementById("1").style.pointerEvents = "none";
+    document.getElementById("2").disabled = true;
+    document.getElementById("2").style.pointerEvents = "none";
+    document.getElementById("3").disabled = true;
+    document.getElementById("3").style.pointerEvents = "none";
+  }
+
+  // enable game buttons
+  function enableGameButtons() {
+    document.getElementById("1").disabled = false;
+    document.getElementById("1").style.pointerEvents = "auto";
+    document.getElementById("2").disabled = false;
+    document.getElementById("2").style.pointerEvents = "auto";
+    document.getElementById("3").disabled = false;
+    document.getElementById("3").style.pointerEvents = "auto";
+  }
+
+  // create a new DOM button to replay
+  function createPlayAgainButton() {
+    const playAgainButton = document.createElement("button");
+    playAgainButton.classList.add("btn-play-again");
+    playAgainButton.textContent = "Play Again!";
+    popup.appendChild(playAgainButton);
+
+    playAgainButton.addEventListener("click", () => {
+      closePopup();
+      restartGame();
+    });
   }
 
   // determine who won to five points first
   function endGame() {
     if (counterPointsPlayer === 5) {
+      gamePlayerWinner = true;
       gameWinner = declareWinner();
       popup.innerText = gameWinner;
       openPopup();
-
-      // disable game buttons
-      document.getElementById("1").disabled = true;
-      document.getElementById("1").style.pointerEvents = "none";
-      document.getElementById("2").disabled = true;
-      document.getElementById("2").style.pointerEvents = "none";
-      document.getElementById("3").disabled = true;
-      document.getElementById("3").style.pointerEvents = "none";
-
-      // create new DOM button to replay
-      const playAgainButton = document.createElement("button");
-      playAgainButton.textContent = "Play Again!";
-      popup.appendChild(playAgainButton);
-
-      // if clicked, reload page
-      playAgainButton.addEventListener("click", () => {
-        location.reload();
-      });
+      disableGameButtons();
+      createPlayAgainButton();
     } else if (counterPointsComputer === 5) {
+      gameComputerWinner = true;
       gameWinner = declareWinner();
       popup.innerText = gameWinner;
       openPopup();
-
-      // disable game buttons
-      document.getElementById("1").disabled = true;
-      document.getElementById("1").style.pointerEvents = "none";
-      document.getElementById("2").disabled = true;
-      document.getElementById("2").style.pointerEvents = "none";
-      document.getElementById("3").disabled = true;
-      document.getElementById("3").style.pointerEvents = "none";
-
-      // create new DOM button to replay
-      const playAgainButton = document.createElement("button");
-      playAgainButton.textContent = "Play Again!";
-      popup.appendChild(playAgainButton);
-
-      // if clicked, reload the page
-      playAgainButton.addEventListener("click", () => {
-        location.reload();
-      });
+      disableGameButtons();
+      createPlayAgainButton();
     }
+  }
+
+  function restartGame() {
+    counterPointsPlayer = 0;
+    counterPointsComputer = 0;
+    enableGameButtons();
+    battleWinText.textContent = "";
+    playerWinText.textContent = `Player Score: ${counterPointsPlayer}`;
+    computerWinText.textContent = `Computer Score: ${counterPointsComputer}`;
+    popup.classList.remove("open-poup");
+    overlay.classList.remove("active");
   }
 }
 
