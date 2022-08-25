@@ -15,12 +15,11 @@ function game() {
   let counterPointsPlayer = 0;
   let counterPointsComputer = 0;
   let gameWinner = "";
-  let roundPlayerWinner = false;
-  let roundComputerWinner = false;
-  let gamePlayerWinner = false;
-  let gameComputerWinner = false;
-
-  let tie = false;
+  let isPlayerRoundWinner = false;
+  let isComputerRoundWinner = false;
+  let isPlayerGameWinner = false;
+  let isComputerGameWinner = false;
+  let isTie = false;
 
   // Add event listeners for all three buttons
   const buttons = document.querySelectorAll("button");
@@ -29,8 +28,8 @@ function game() {
       playerSelection = button.className;
       const computerSelection = getComputerChoice();
       battleWinText.textContent = playRound(playerSelection, computerSelection);
-      playerWinText.textContent = "Player Score: " + counterPointsPlayer;
-      computerWinText.textContent = "Computer Score: " + counterPointsComputer;
+      playerScore.textContent = "Player Score: " + counterPointsPlayer;
+      computerScore.textContent = "Computer Score: " + counterPointsComputer;
       endGame();
     });
   });
@@ -39,51 +38,51 @@ function game() {
   function playRound(playerSelection, computerSelection) {
     if (playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scissors") {
       if (playerSelection === computerSelection) {
-        tie = true;
-        roundPlayerWinner = false;
-        roundComputerWinner = false;
+        isTie = true;
+        isPlayerRoundWinner = false;
+        isComputerRoundWinner = false;
         colorRoundWinner();
         return `It's a Tie! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       } else if (playerSelection === "rock" && computerSelection === "paper") {
         counterPointsComputer++;
-        roundComputerWinner = true;
-        roundPlayerWinner = false;
-        tie = false;
+        isComputerRoundWinner = true;
+        isPlayerRoundWinner = false;
+        isTie = false;
         colorRoundWinner();
         return `You Lose! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       } else if (playerSelection === "paper" && computerSelection === "scissors") {
         counterPointsComputer++;
-        roundComputerWinner = true;
-        roundPlayerWinner = false;
-        tie = false;
+        isComputerRoundWinner = true;
+        isPlayerRoundWinner = false;
+        isTie = false;
         colorRoundWinner();
         return `You Lose! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       } else if (playerSelection === "scissors" && computerSelection === "rock") {
         counterPointsComputer++;
-        roundComputerWinner = true;
-        roundPlayerWinner = false;
-        tie = false;
+        isComputerRoundWinner = true;
+        isPlayerRoundWinner = false;
+        isTie = false;
         colorRoundWinner();
         return `You Lose! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       } else if (playerSelection === "rock" && computerSelection === "scissors") {
         counterPointsPlayer++;
-        roundPlayerWinner = true;
-        roundComputerWinner = false;
-        tie = false;
+        isPlayerRoundWinner = true;
+        isComputerRoundWinner = false;
+        isTie = false;
         colorRoundWinner();
         return `You Win! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       } else if (playerSelection === "paper" && computerSelection === "rock") {
         counterPointsPlayer++;
-        roundPlayerWinner = true;
-        roundComputerWinner = false;
-        tie = false;
+        isPlayerRoundWinner = true;
+        isComputerRoundWinner = false;
+        isTie = false;
         colorRoundWinner();
         return `You Win! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       } else if (playerSelection === "scissors" && computerSelection === "paper") {
         counterPointsPlayer++;
-        roundPlayerWinner = true;
-        roundComputerWinner = false;
-        tie = false;
+        isPlayerRoundWinner = true;
+        isComputerRoundWinner = false;
+        isTie = false;
         colorRoundWinner();
         return `You Win! Your choice is ${playerSelection} and the computer's choice is ${computerSelection}.`;
       }
@@ -96,10 +95,12 @@ function game() {
     let finalResult = `The final result is: ${counterPointsPlayer}:${counterPointsComputer}!`;
 
     if (counterPointsPlayer > counterPointsComputer) {
+      isPlayerGameWinner = true;
       colorGameWinner();
       return `Congratulations! You won the game!!! 😎 
 ${finalResult}`;
     } else {
+      isComputerGameWinner = true;
       colorGameWinner();
       return `Unfortunately, You lost the game! 😟 
 ${finalResult}`;
@@ -108,9 +109,9 @@ ${finalResult}`;
 
   // color the round outcome: player win - green, computer win - red, tie - white
   function colorRoundWinner() {
-    if (roundPlayerWinner === true) {
+    if (isPlayerRoundWinner) {
       battleWinText.style.color = "#00ff00";
-    } else if (roundComputerWinner === true) {
+    } else if (isComputerRoundWinner) {
       battleWinText.style.color = "#ff0000";
     } else {
       battleWinText.style.color = "#ffffff";
@@ -119,9 +120,9 @@ ${finalResult}`;
 
   // color the game outcome: player win - green, computer win - red
   function colorGameWinner() {
-    if (gamePlayerWinner === true) {
+    if (isPlayerGameWinner) {
       popup.style.color = "#00ff00";
-    } else if (gameComputerWinner === true) {
+    } else if (isComputerGameWinner) {
       popup.style.color = "#ff0000";
     }
   }
@@ -129,23 +130,26 @@ ${finalResult}`;
   // create div DOM for all results
   const resultsDiv = document.createElement("div");
   resultsDiv.classList.add("results");
-  resultsDiv.style.marginTop = "30px";
+  resultsDiv.style.marginTop = "40px";
   container.appendChild(resultsDiv);
 
   // create player win tracking DOM
-  const playerWinText = document.createElement("span");
-  playerWinText.style.color = "#00ff00";
-  playerWinText.textContent = "Player Score: " + counterPointsPlayer;
-  resultsDiv.appendChild(playerWinText);
+  const playerScore = document.createElement("span");
+  playerScore.classList.add("span-player-score");
+  playerScore.style.color = "#00ff00";
+  playerScore.textContent = "Player Score: " + counterPointsPlayer;
+  resultsDiv.appendChild(playerScore);
 
   // create computer win tracking DOM
-  const computerWinText = document.createElement("span");
-  computerWinText.style.color = "#ff0000";
-  computerWinText.textContent = "Computer Score: " + counterPointsComputer;
-  resultsDiv.appendChild(computerWinText);
+  const computerScore = document.createElement("span");
+  computerScore.classList.add("span-computer-score");
+  computerScore.style.color = "#ff0000";
+  computerScore.textContent = "Computer Score: " + counterPointsComputer;
+  resultsDiv.appendChild(computerScore);
 
   // create battle win text DOM
   const battleWinText = document.createElement("p");
+  battleWinText.classList.add("msg-round");
   battleWinText.style.color = "#ff0000";
   resultsDiv.appendChild(battleWinText);
 
@@ -212,14 +216,14 @@ ${finalResult}`;
   // determine who won to five points first
   function endGame() {
     if (counterPointsPlayer === 5) {
-      gamePlayerWinner = true;
+      isPlayerGameWinner = true;
       gameWinner = declareWinner();
       popup.innerText = gameWinner;
       openPopup();
       disableGameButtons();
       createPlayAgainButton();
     } else if (counterPointsComputer === 5) {
-      gameComputerWinner = true;
+      isComputerGameWinner = true;
       gameWinner = declareWinner();
       popup.innerText = gameWinner;
       openPopup();
@@ -231,10 +235,12 @@ ${finalResult}`;
   function restartGame() {
     counterPointsPlayer = 0;
     counterPointsComputer = 0;
+    isPlayerGameWinner = false;
+    isComputerGameWinner = false;
     enableGameButtons();
     battleWinText.textContent = "";
-    playerWinText.textContent = `Player Score: ${counterPointsPlayer}`;
-    computerWinText.textContent = `Computer Score: ${counterPointsComputer}`;
+    playerScore.textContent = `Player Score: ${counterPointsPlayer}`;
+    computerScore.textContent = `Computer Score: ${counterPointsComputer}`;
     popup.classList.remove("open-poup");
     overlay.classList.remove("active");
   }

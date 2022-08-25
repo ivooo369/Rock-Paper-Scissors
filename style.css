@@ -2,6 +2,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
   color: #ffffff;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 20px;
@@ -12,11 +13,17 @@ body {
   text-align: center;
   height: 450px;
   width: 1100px;
-  background-color: #47474e;
+  background-color: #47474ee1;
   padding: 100px 0;
   border: 5px double #ffd700;
   border-radius: 5px;
   margin: 20px auto;
+}
+
+.main-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
 }
 
 .popup {
@@ -25,15 +32,15 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 1;
-  width: 400px;
-  height: auto;
-  border-radius: 5px;
-  background-color: #ffffff;
+  width: 30%;
+  border: 5px double #ffd700;
+  border-radius: 20px;
+  background-color: #251a1a;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  padding: 50px;
+  padding: 25px;
   visibility: hidden;
   transition: 0.3s ease-out;
 }
@@ -69,19 +76,31 @@ h1 {
   text-align: center;
 }
 
-span:nth-of-type(1) {
+.span-player-score {
   margin-right: 50px;
 }
 
-span:nth-of-type(2) {
+.span-computer-score {
   margin-left: 50px;
+}
+
+.msg-round {
+  margin-top: 30px;
 }
 
 button {
   border: 3px solid #ffd700;
   border-radius: 5px;
-  margin: 20px;
   transition: 0.3s ease-in-out;
+}
+
+.btn-play-again {
+  background-color: #f0ffff;
+  border: 2px solid #ffd700;
+  border-radius: 10px;
+  padding: 8px;
+  font-weight: bold;
+  margin: 30px auto 0 auto;
 }
 
 button:hover {
@@ -89,6 +108,68 @@ button:hover {
   box-shadow: 0 0 3em 0.5em #ffd700;
 }
 
+.btn-play-again:hover {
+  background-color: #b1c7de;
+  background-origin: 2px solid #ffffff;
+  box-shadow: none;
+}
+
 btn-play-again:active {
   background-color: black;
+  outline: none;
+}
+
+@media (max-width: 850px) {
+  * {
+    margin: 0;
+  }
+
+  .main-buttons {
+    gap: 20px;
+  }
+
+  #container {
+    margin: 95px 5px;
+    height: 300px;
+  }
+
+  h1 {
+    font-size: 25px;
+  }
+
+  span,
+  .msg-round {
+    font-size: 16px;
+    margin: 30px auto;
+  }
+
+  .span-player-score {
+    margin-right: 25px;
+  }
+
+  .span-computer-score {
+    margin-left: 25px;
+  }
+
+  img {
+    width: 80px;
+    height: auto;
+  }
+
+  /* .sign {
+    font-size: 50px;
+  } */
+
+  .popup {
+    width: 75%;
+  }
+
+  .open-popup {
+    font-size: 16px;
+  }
+
+  .btn-play-again {
+    margin-top: 15px;
+    padding: 5px;
+  }
 }
