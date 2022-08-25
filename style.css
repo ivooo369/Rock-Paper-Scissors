@@ -1,12 +1,19 @@
+html {
+  height: 100%;
+}
+
 body {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
   height: 100%;
   color: #ffffff;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 20px;
   background-image: url(imgs/RPS-background.jpg);
+}
+
+* {
+  margin: 0;
 }
 
 #container {
@@ -17,7 +24,9 @@ body {
   padding: 100px 0;
   border: 5px double #ffd700;
   border-radius: 5px;
-  margin: 20px auto;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
 }
 
 .main-buttons {
@@ -32,7 +41,7 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 1;
-  width: 30%;
+  width: 35%;
   border: 5px double #ffd700;
   border-radius: 20px;
   background-color: #251a1a;
@@ -120,17 +129,13 @@ btn-play-again:active {
 }
 
 @media (max-width: 850px) {
-  * {
-    margin: 0;
+  #container {
+    margin: 95px 5px;
+    height: 300px;
   }
 
   .main-buttons {
     gap: 20px;
-  }
-
-  #container {
-    margin: 95px 5px;
-    height: 300px;
   }
 
   h1 {
@@ -155,10 +160,6 @@ btn-play-again:active {
     width: 80px;
     height: auto;
   }
-
-  /* .sign {
-    font-size: 50px;
-  } */
 
   .popup {
     width: 75%;
