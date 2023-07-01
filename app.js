@@ -171,12 +171,16 @@ ${finalResult}`;
   // open popup window
   function openPopup() {
     popup.classList.add("open-popup");
+    popup.classList.add("popup-visible");
+    document.body.classList.add('popup-visible');
     overlay.classList.add("active");
   }
 
   // close popup window
   function closePopup() {
     popup.classList.remove("open-popup");
+    popup.classList.remove("popup-visible");
+    document.body.classList.remove('popup-visible');
     overlay.classList.remove("active");
   }
 

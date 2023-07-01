@@ -45,7 +45,7 @@ body {
   border: 5px double #ffd700;
   border-radius: 20px;
   background-color: #251a1a;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
@@ -57,6 +57,10 @@ body {
 .open-popup {
   visibility: visible;
   transform: translate(-50%, -50%) scale(1);
+}
+
+.popup-visible {
+  overflow: hidden;
 }
 
 .overlay {
